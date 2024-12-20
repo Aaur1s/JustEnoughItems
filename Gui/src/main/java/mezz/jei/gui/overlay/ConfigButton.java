@@ -18,6 +18,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
@@ -42,10 +43,10 @@ public class ConfigButton extends GuiIconToggleButton {
 
 	@Override
 	protected void getTooltips(JeiTooltip tooltip) {
-		tooltip.add(Component.translatable("jei.tooltip.config"));
+		tooltip.add(new TranslatableComponent("jei.tooltip.config"));
 		if (!worldConfig.isOverlayEnabled()) {
 			tooltip.add(
-				Component.translatable("jei.tooltip.ingredient.list.disabled")
+				new TranslatableComponent("jei.tooltip.ingredient.list.disabled")
 					.withStyle(ChatFormatting.GOLD)
 			);
 			tooltip.addKeyUsageComponent(
@@ -54,13 +55,13 @@ public class ConfigButton extends GuiIconToggleButton {
 			);
 		} else if (!isListDisplayed.getAsBoolean()) {
 			tooltip.add(
-				Component.translatable("jei.tooltip.not.enough.space")
+				new TranslatableComponent("jei.tooltip.not.enough.space")
 					.withStyle(ChatFormatting.GOLD)
 			);
 		}
 		if (worldConfig.isCheatItemsEnabled()) {
 			tooltip.add(
-				Component.translatable("jei.tooltip.cheat.mode.button.enabled")
+				new TranslatableComponent("jei.tooltip.cheat.mode.button.enabled")
 					.withStyle(ChatFormatting.RED)
 			);
 
@@ -120,7 +121,7 @@ public class ConfigButton extends GuiIconToggleButton {
 	}
 
 	private static Component getMissingConfigScreenMessage(IPlatformConfigHelper configHelper) {
-		return Component.translatable("jei.message.configured")
+		return new TranslatableComponent("jei.message.configured")
 			.setStyle(
 				Style.EMPTY
 					.withColor(ChatFormatting.DARK_BLUE)
@@ -134,7 +135,7 @@ public class ConfigButton extends GuiIconToggleButton {
 			)
 			.append("\n")
 			.append(
-				Component.translatable("jei.message.config.folder")
+				new TranslatableComponent("jei.message.config.folder")
 					.setStyle(
 						Style.EMPTY
 							.withColor(ChatFormatting.WHITE)

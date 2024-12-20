@@ -4,7 +4,7 @@ import mezz.jei.api.constants.ModIds;
 import mezz.jei.common.platform.IPlatformConfigHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -25,7 +25,7 @@ public class ConfigHelper implements IPlatformConfigHelper {
 		return ModList.get()
 			.getModContainerById(ModIds.JEI_ID)
 			.map(ModContainer::getModInfo)
-			.flatMap(ConfigScreenHandler::getScreenFactoryFor)
+			.flatMap(ConfigGuiHandler::getGuiFactoryFor)
 			.map(f -> f.apply(minecraft, minecraft.screen));
 	}
 }

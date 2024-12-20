@@ -44,7 +44,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.jetbrains.annotations.Nullable;
 
@@ -108,7 +108,7 @@ public class RecipesGui extends Screen implements IRecipesGui, IRecipeFocusSourc
 		IFocusFactory focusFactory,
 		IGuiHelper guiHelper
 	) {
-		super(Component.literal("Recipes"));
+		super(new TextComponent("Recipes"));
 		this.keyBindings = keyBindings;
 		this.logic = new RecipeGuiLogic(
 			recipeManager,

@@ -14,7 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.TextComponent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -33,7 +33,7 @@ public class GuiTextFieldFilter extends EditBox {
 
 	public GuiTextFieldFilter(BooleanSupplier filterEmpty) {
 		// TODO narrator string
-		super(Minecraft.getInstance().font, 0, 0, 0, 0, CommonComponents.EMPTY);
+		super(Minecraft.getInstance().font, 0, 0, 0, 0, new TextComponent(""));
 		this.filterEmpty = filterEmpty;
 
 		setMaxLength(maxSearchLength);

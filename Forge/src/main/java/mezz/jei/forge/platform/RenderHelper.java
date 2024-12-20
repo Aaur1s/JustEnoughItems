@@ -13,9 +13,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.client.extensions.common.IClientMobEffectExtensions;
-import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.client.RenderProperties;
+import net.minecraftforge.client.model.data.EmptyModelData;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -24,8 +23,7 @@ import java.util.Optional;
 public class RenderHelper implements IPlatformRenderHelper {
 	@Override
 	public Font getFontRenderer(Minecraft minecraft, ItemStack itemStack) {
-		IClientItemExtensions renderProperties = IClientItemExtensions.of(itemStack);
-		Font fontRenderer = renderProperties.getFont(itemStack, IClientItemExtensions.FontContext.TOOLTIP);
+		Font fontRenderer = RenderProperties.get(itemStack).getFont(itemStack);
 		if (fontRenderer != null) {
 			return fontRenderer;
 		}
@@ -34,13 +32,12 @@ public class RenderHelper implements IPlatformRenderHelper {
 
 	@Override
 	public boolean shouldRender(MobEffectInstance potionEffect) {
-		IClientMobEffectExtensions effectRenderer = IClientMobEffectExtensions.of(potionEffect);
-		return effectRenderer.isVisibleInInventory(potionEffect);
+		return RenderProperties.getEffectRenderer(potionEffect).shouldRender(potionEffect);
 	}
 
 	@Override
 	public TextureAtlasSprite getParticleIcon(BakedModel bakedModel) {
-		return bakedModel.getParticleIcon(ModelData.EMPTY);
+		return bakedModel.getParticleIcon(EmptyModelData.INSTANCE);
 	}
 
 	@Override

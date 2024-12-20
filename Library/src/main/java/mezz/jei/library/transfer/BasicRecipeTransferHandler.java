@@ -15,6 +15,7 @@ import mezz.jei.common.transfer.RecipeTransferOperationsResult;
 import mezz.jei.common.transfer.RecipeTransferUtil;
 import mezz.jei.common.util.StringUtil;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -72,7 +73,7 @@ public class BasicRecipeTransferHandler<C extends AbstractContainerMenu, R> impl
 	@Override
 	public IRecipeTransferError transferRecipe(C container, R recipe, IRecipeSlotsView recipeSlotsView, Player player, boolean maxTransfer, boolean doTransfer) {
 		if (!serverConnection.isJeiOnServer()) {
-			Component tooltipMessage = Component.translatable("jei.tooltip.error.recipe.transfer.no.server");
+			Component tooltipMessage = new TranslatableComponent("jei.tooltip.error.recipe.transfer.no.server");
 			return handlerHelper.createUserErrorWithTooltip(tooltipMessage);
 		}
 
@@ -103,7 +104,7 @@ public class BasicRecipeTransferHandler<C extends AbstractContainerMenu, R> impl
 		// check if we have enough inventory space to shuffle items around to their final locations
 		int inputCount = inputItemSlotViews.size();
 		if (!inventoryState.hasRoom(inputCount)) {
-			Component message = Component.translatable("jei.tooltip.error.recipe.transfer.inventory.full");
+			Component message = new TranslatableComponent("jei.tooltip.error.recipe.transfer.inventory.full");
 			return handlerHelper.createUserErrorWithTooltip(message);
 		}
 
@@ -115,7 +116,7 @@ public class BasicRecipeTransferHandler<C extends AbstractContainerMenu, R> impl
 		);
 
 		if (!transferOperations.missingItems.isEmpty()) {
-			Component message = Component.translatable("jei.tooltip.error.recipe.transfer.missing");
+			Component message = new TranslatableComponent("jei.tooltip.error.recipe.transfer.missing");
 			return handlerHelper.createUserErrorForMissingSlots(message, transferOperations.missingItems);
 		}
 

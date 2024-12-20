@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.TooltipFlag;
 
 import java.util.ArrayList;
@@ -34,8 +35,8 @@ public class DebugIngredientRenderer implements IIngredientRenderer<DebugIngredi
 	public List<Component> getTooltip(DebugIngredient ingredient, TooltipFlag tooltipFlag) {
 		List<Component> tooltip = new ArrayList<>();
 		String displayName = ingredientHelper.getDisplayName(ingredient);
-		tooltip.add(Component.literal(displayName));
-		MutableComponent debugIngredient = Component.literal("debug ingredient");
+		tooltip.add(new TextComponent(displayName));
+		MutableComponent debugIngredient = new TextComponent("debug ingredient");
 		tooltip.add(debugIngredient.withStyle(ChatFormatting.GRAY));
 		return tooltip;
 	}

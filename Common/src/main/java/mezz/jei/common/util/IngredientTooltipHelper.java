@@ -3,8 +3,8 @@ package mezz.jei.common.util;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
 
 import mezz.jei.api.ingredients.IIngredientRenderer;
@@ -24,7 +24,7 @@ public class IngredientTooltipHelper {
 			LOGGER.error("Tooltip crashed.", e);
 		}
 
-		MutableComponent translated = Component.translatable("jei.tooltip.error.crash");
+		MutableComponent translated = new TranslatableComponent("jei.tooltip.error.crash");
 		tooltip.add(translated.withStyle(ChatFormatting.RED));
 	}
 }

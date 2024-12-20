@@ -16,7 +16,12 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.StoragePreconditions;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -24,6 +29,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -117,16 +123,74 @@ public class FluidHelper implements IPlatformFluidHelperInternal<IJeiFluidIngred
 
 	@Override
 	public Optional<IJeiFluidIngredient> getContainedFluid(ITypedIngredient<?> ingredient) {
-		return ingredient.getItemStack()
-			.map(ContainerItemContext::withConstant)
-			.map(c -> c.find(FluidStorage.ITEM))
-			.map(Storage::iterator)
-			.filter(Iterator::hasNext)
-			.map(Iterator::next)
-			.map(view -> {
-				FluidVariant resource = view.getResource();
-				return new JeiFluidIngredient(resource.getFluid(), view.getAmount(), resource.getNbt());
-			});
+		try (final var transaction = Transaction.openOuter()) {
+			return ingredient.getItemStack()
+					.map((itemStack) -> new ContainerItemContext() {
+						private final SingleVariantStorage<ItemVariant> backingSlot = new SingleVariantStorage<>() {
+							@Override
+							protected ItemVariant getBlankVariant() {
+								return ItemVariant.blank();
+							}
+
+							@Override
+							protected long getCapacity(ItemVariant variant) {
+								return Long.MAX_VALUE;
+							}
+
+							@Override
+							public long insert(ItemVariant insertedVariant, long maxAmount, TransactionContext transaction) {
+								StoragePreconditions.notBlankNotNegative(insertedVariant, maxAmount);
+
+								// Pretend we can't insert anything to route every insertion through insertOverflow.
+								return 0;
+							}
+
+							@Override
+							public long extract(ItemVariant extractedVariant, long maxAmount, TransactionContext transaction) {
+								StoragePreconditions.notBlankNotNegative(extractedVariant, maxAmount);
+
+								// Pretend we can extract anything, but never actually do it.
+								return maxAmount;
+							}
+						};
+
+						{
+							backingSlot.variant = ItemVariant.of(itemStack);
+							backingSlot.amount = itemStack.getCount();
+						}
+
+						@Override
+						public SingleSlotStorage<ItemVariant> getMainSlot() {
+							return backingSlot;
+						}
+
+						@Override
+						public long insertOverflow(ItemVariant itemVariant, long maxAmount, TransactionContext transactionContext) {
+							StoragePreconditions.notBlankNotNegative(itemVariant, maxAmount);
+							// Always allow anything to be inserted.
+							return maxAmount;
+						}
+
+						@Override
+						public List<SingleSlotStorage<ItemVariant>> getAdditionalSlots() {
+							return Collections.emptyList();
+						}
+
+						@Override
+						public String toString() {
+							return "ConstantContainerItemContext[%d %s]"
+									.formatted(getMainSlot().getAmount(), getMainSlot().getResource());
+						}
+					})
+					.map(c -> c.find(FluidStorage.ITEM))
+					.map(s -> s.iterator(transaction))
+					.filter(Iterator::hasNext)
+					.map(Iterator::next)
+					.map(view -> {
+						FluidVariant resource = view.getResource();
+						return new JeiFluidIngredient(resource.getFluid(), view.getAmount(), resource.getNbt());
+					});
+		}
 	}
 
 	private static class AllFluidNbt implements IIngredientSubtypeInterpreter<IJeiFluidIngredient> {

@@ -12,6 +12,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -58,7 +59,7 @@ public class ItemStackRenderer implements IIngredientRenderer<ItemStack> {
 			String itemStackInfo = ErrorUtil.getItemStackInfo(ingredient);
 			LOGGER.error("Failed to get tooltip: {}", itemStackInfo, e);
 			List<Component> list = new ArrayList<>();
-			MutableComponent crash = Component.translatable("jei.tooltip.error.crash");
+			MutableComponent crash = new TranslatableComponent("jei.tooltip.error.crash");
 			list.add(crash.withStyle(ChatFormatting.RED));
 			return list;
 		}

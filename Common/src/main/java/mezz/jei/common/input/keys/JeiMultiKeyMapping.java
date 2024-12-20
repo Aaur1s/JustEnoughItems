@@ -3,6 +3,7 @@ package mezz.jei.common.input.keys;
 import com.mojang.blaze3d.platform.InputConstants;
 import mezz.jei.api.runtime.IJeiKeyMapping;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +37,7 @@ public class JeiMultiKeyMapping implements IJeiKeyMapping {
 				this.mappings.stream()
 				.map(IJeiKeyMapping::getTranslatedKeyMessage)
 				.findFirst()
-				.orElseGet(() -> Component.literal("error"))
+				.orElseGet(() -> new TextComponent("error"))
 			);
 	}
 }

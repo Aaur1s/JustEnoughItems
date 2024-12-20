@@ -17,6 +17,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.jetbrains.annotations.Nullable;
@@ -88,7 +89,7 @@ public class RecipeTransferButton extends GuiIconToggleButton {
 	@Override
 	protected void getTooltips(JeiTooltip tooltip) {
 		if (recipeTransferError == null) {
-			Component tooltipTransfer = Component.translatable("jei.tooltip.transfer");
+			Component tooltipTransfer = new TranslatableComponent("jei.tooltip.transfer");
 			tooltip.add(tooltipTransfer);
 		} else {
 			recipeTransferError.getTooltip(tooltip);

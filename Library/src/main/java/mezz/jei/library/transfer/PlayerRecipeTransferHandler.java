@@ -11,6 +11,7 @@ import mezz.jei.api.recipe.transfer.IRecipeTransferError;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandlerHelper;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -55,13 +56,13 @@ public class PlayerRecipeTransferHandler implements IRecipeTransferHandler<Inven
 	@Override
 	public IRecipeTransferError transferRecipe(InventoryMenu container, CraftingRecipe recipe, IRecipeSlotsView recipeSlotsView, Player player, boolean maxTransfer, boolean doTransfer) {
 		if (!handlerHelper.recipeTransferHasServerSupport()) {
-			Component tooltipMessage = Component.translatable("jei.tooltip.error.recipe.transfer.no.server");
+			Component tooltipMessage = new TranslatableComponent("jei.tooltip.error.recipe.transfer.no.server");
 			return this.handlerHelper.createUserErrorWithTooltip(tooltipMessage);
 		}
 
 		List<IRecipeSlotView> slotViews = recipeSlotsView.getSlotViews(RecipeIngredientRole.INPUT);
 		if (!validateIngredientsOutsidePlayerGridAreEmpty(slotViews)) {
-			Component tooltipMessage = Component.translatable(
+			Component tooltipMessage = new TranslatableComponent(
 				"jei.tooltip.error.recipe.transfer.too.large.player.inventory"
 			);
 			return this.handlerHelper.createUserErrorWithTooltip(tooltipMessage);

@@ -15,6 +15,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 
@@ -88,7 +89,7 @@ public class RecipeCategoryTab extends RecipeGuiTab {
 		IModIdHelper modIdHelper = Internal.getJeiRuntime().getJeiHelpers().getModIdHelper();
 		if (modIdHelper.isDisplayingModNameEnabled()) {
 			String modName = modIdHelper.getFormattedModNameForModId(modId);
-			tooltip.add(Component.literal(modName));
+			tooltip.add(new TextComponent(modName));
 		}
 		return tooltip;
 	}

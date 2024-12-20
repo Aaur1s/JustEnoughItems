@@ -3,6 +3,7 @@ package mezz.jei.forge.platform;
 import mezz.jei.common.platform.IPlatformItemStackHelper;
 import mezz.jei.common.util.ErrorUtil;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -57,7 +58,7 @@ public class ItemStackHelper implements IPlatformItemStackHelper {
 	public List<Component> getTestTooltip(@Nullable Player player, ItemStack itemStack) {
 		try {
 			List<Component> tooltip = new ArrayList<>();
-			tooltip.add(Component.literal("JEI Tooltip Testing for mod name formatting"));
+			tooltip.add(new TextComponent("JEI Tooltip Testing for mod name formatting"));
 			ItemTooltipEvent tooltipEvent = ForgeEventFactory.onItemTooltip(itemStack, player, tooltip, TooltipFlag.Default.NORMAL);
 			return tooltipEvent.getToolTip();
 		} catch (LinkageError | RuntimeException e) {

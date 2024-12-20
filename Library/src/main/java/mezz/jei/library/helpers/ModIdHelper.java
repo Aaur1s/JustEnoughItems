@@ -17,6 +17,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,7 +55,7 @@ public final class ModIdHelper implements IModIdHelper {
 		String modId = ingredientHelper.getDisplayModId(ingredient);
 		String modName = getFormattedModNameForModId(modId);
 		List<Component> tooltipCopy = new ArrayList<>(tooltip);
-		tooltipCopy.add(Component.literal(modName));
+		tooltipCopy.add(new TextComponent(modName));
 		return tooltipCopy;
 	}
 
@@ -83,14 +84,14 @@ public final class ModIdHelper implements IModIdHelper {
 		IIngredientHelper<T> ingredientHelper = ingredientManager.getIngredientHelper(type);
 		String modId = ingredientHelper.getDisplayModId(ingredient);
 		String modName = getFormattedModNameForModId(modId);
-		return Optional.of(Component.literal(modName));
+		return Optional.of(new TextComponent(modName));
 	}
 
 	private static <T> List<Component> addDebugInfo(List<Component> tooltip, T ingredient, IIngredientHelper<T> ingredientHelper) {
 		tooltip = new ArrayList<>(tooltip);
-		MutableComponent jeiDebug = Component.literal("JEI Debug:");
-		MutableComponent info = Component.literal("info: " + ingredientHelper.getErrorInfo(ingredient));
-		MutableComponent uid = Component.literal("uid: " + ingredientHelper.getUniqueId(ingredient, UidContext.Ingredient));
+		MutableComponent jeiDebug = new TextComponent("JEI Debug:");
+		MutableComponent info = new TextComponent("info: " + ingredientHelper.getErrorInfo(ingredient));
+		MutableComponent uid = new TextComponent("uid: " + ingredientHelper.getUniqueId(ingredient, UidContext.Ingredient));
 		tooltip.add(jeiDebug.withStyle(ChatFormatting.DARK_GRAY));
 		tooltip.add(info.withStyle(ChatFormatting.DARK_GRAY));
 		tooltip.add(uid.withStyle(ChatFormatting.DARK_GRAY));

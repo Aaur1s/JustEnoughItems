@@ -22,9 +22,7 @@ import net.minecraft.ReportedException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.FormattedText;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -62,7 +60,7 @@ public class JeiTooltip implements ITooltipBuilder {
 
 	public void addKeyUsageComponent(String translationKey, MutableComponent keyMapping) {
 		Component boldKeyMapping = keyMapping.withStyle(ChatFormatting.BOLD);
-		MutableComponent component = Component.translatable(translationKey, boldKeyMapping)
+		MutableComponent component = new TranslatableComponent(translationKey, boldKeyMapping)
 			.withStyle(ChatFormatting.ITALIC)
 			.withStyle(ChatFormatting.GRAY);
 
@@ -174,24 +172,24 @@ public class JeiTooltip implements ITooltipBuilder {
 		IIngredientType<T> type = typedIngredient.getType();
 		IIngredientHelper<T> ingredientHelper = ingredientManager.getIngredientHelper(type);
 
-		add(Component.empty());
+		add(new TextComponent(""));
 		add(
-			Component.literal("JEI Debug:")
+			new TextComponent("JEI Debug:")
 				.withStyle(ChatFormatting.DARK_GRAY)
 		);
 		add(
-			Component.literal("• type: " + ingredientHelper.getIngredientType().getIngredientClass())
+			new TextComponent("• type: " + ingredientHelper.getIngredientType().getIngredientClass())
 				.withStyle(ChatFormatting.DARK_GRAY)
 		);
 		add(
-			Component.literal("• uid: " + ingredientHelper.getUniqueId(ingredient, UidContext.Ingredient))
+			new TextComponent("• uid: " + ingredientHelper.getUniqueId(ingredient, UidContext.Ingredient))
 				.withStyle(ChatFormatting.DARK_GRAY)
 		);
 		add(
-			Component.literal("• extra info: " + ingredientHelper.getErrorInfo(ingredient))
+			new TextComponent("• extra info: " + ingredientHelper.getErrorInfo(ingredient))
 				.withStyle(ChatFormatting.DARK_GRAY)
 		);
-		add(Component.empty());
+		add(new TextComponent(""));
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.StonecutterRecipe;
@@ -28,7 +29,7 @@ public class StoneCuttingRecipeCategory implements IRecipeCategory<StonecutterRe
 		ResourceLocation location = Constants.RECIPE_GUI_VANILLA;
 		background = guiHelper.createDrawable(location, 0, 220, width, height);
 		icon = guiHelper.createDrawableItemStack(new ItemStack(Blocks.STONECUTTER));
-		localizedName = Component.translatable("gui.jei.category.stoneCutter");
+		localizedName = new TranslatableComponent("gui.jei.category.stoneCutter");
 	}
 
 	@Override

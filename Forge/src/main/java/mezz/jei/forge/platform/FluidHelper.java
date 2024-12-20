@@ -15,15 +15,15 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
@@ -51,8 +51,7 @@ public class FluidHelper implements IPlatformFluidHelperInternal<FluidStack> {
 	@Override
 	public int getColorTint(FluidStack ingredient) {
 		Fluid fluid = ingredient.getFluid();
-		IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid);
-		return renderProperties.getTintColor(ingredient);
+		return fluid.getAttributes().getColor();
 	}
 
 	@Override
@@ -79,7 +78,7 @@ public class FluidHelper implements IPlatformFluidHelperInternal<FluidStack> {
 		if (tooltipFlag.isAdvanced()) {
 			ResourceLocation resourceLocation = ForgeRegistries.FLUIDS.getKey(fluid);
 			if (resourceLocation != null) {
-				MutableComponent advancedId = Component.literal(resourceLocation.toString())
+				MutableComponent advancedId = new TextComponent(resourceLocation.toString())
 					.withStyle(ChatFormatting.DARK_GRAY);
 				tooltip.add(advancedId);
 			}
@@ -90,14 +89,13 @@ public class FluidHelper implements IPlatformFluidHelperInternal<FluidStack> {
 
 	@Override
 	public long bucketVolume() {
-		return FluidType.BUCKET_VOLUME;
+		return FluidAttributes.BUCKET_VOLUME;
 	}
 
 	@Override
 	public Optional<TextureAtlasSprite> getStillFluidSprite(FluidStack fluidStack) {
 		Fluid fluid = fluidStack.getFluid();
-		IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid);
-		ResourceLocation fluidStill = renderProperties.getStillTexture(fluidStack);
+		ResourceLocation fluidStill = fluid.getAttributes().getStillTexture();
 
 		TextureAtlasSprite sprite = Minecraft.getInstance()
 			.getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
@@ -147,14 +145,14 @@ public class FluidHelper implements IPlatformFluidHelperInternal<FluidStack> {
 	@Override
 	public FluidStack normalize(FluidStack ingredient) {
 		FluidStack copy = this.copy(ingredient);
-		copy.setAmount(FluidType.BUCKET_VOLUME);
+		copy.setAmount(FluidAttributes.BUCKET_VOLUME);
 		return copy;
 	}
 
 	@Override
 	public Optional<FluidStack> getContainedFluid(ITypedIngredient<?> ingredient) {
 		return ingredient.getItemStack()
-			.flatMap(i -> i.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).resolve())
+			.flatMap(i -> i.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).resolve())
 			.map(c -> c.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE));
 	}
 }

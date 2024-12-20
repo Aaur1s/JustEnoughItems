@@ -35,6 +35,7 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -64,7 +65,7 @@ public class DebugRecipeCategory<F> implements IRecipeCategory<DebugRecipe> {
 		this.background = guiHelper.createBlankDrawable(RECIPE_WIDTH, RECIPE_HEIGHT);
 		this.platformFluidHelper = platformFluidHelper;
 		this.ingredientManager = ingredientManager;
-		this.localizedName = Component.literal("debug");
+		this.localizedName = new TextComponent("debug");
 
 		ResourceLocation backgroundTexture = new ResourceLocation(ModIds.JEI_ID, Constants.TEXTURE_GUI_PATH + "debug.png");
 		this.tankBackground = guiHelper.createDrawable(backgroundTexture, 220, 196, 18, 60);
@@ -175,9 +176,9 @@ public class DebugRecipeCategory<F> implements IRecipeCategory<DebugRecipe> {
 			))
 			.addTooltipCallback((recipeSlotView, tooltip) -> {
 				switch (recipeSlotView.getRole()) {
-					case INPUT -> tooltip.add(Component.literal("Input DebugIngredient"));
-					case OUTPUT -> tooltip.add(Component.literal( "Output DebugIngredient"));
-					case CATALYST -> tooltip.add(Component.literal("Catalyst DebugIngredient"));
+					case INPUT -> tooltip.add(new TextComponent("Input DebugIngredient"));
+					case OUTPUT -> tooltip.add(new TextComponent( "Output DebugIngredient"));
+					case CATALYST -> tooltip.add(new TextComponent("Catalyst DebugIngredient"));
 				}
 			});
 	}
@@ -185,15 +186,15 @@ public class DebugRecipeCategory<F> implements IRecipeCategory<DebugRecipe> {
 	@Override
 	public List<Component> getTooltipStrings(DebugRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 		List<Component> tooltipStrings = new ArrayList<>();
-		tooltipStrings.add(Component.literal("Debug Recipe Category Tooltip is very long and going to wrap").withStyle(ChatFormatting.GOLD));
+		tooltipStrings.add(new TextComponent("Debug Recipe Category Tooltip is very long and going to wrap").withStyle(ChatFormatting.GOLD));
 
 		if (recipe.checkHover(mouseX, mouseY)) {
-			tooltipStrings.add(Component.literal("button tooltip!"));
+			tooltipStrings.add(new TextComponent("button tooltip!"));
 		} else {
-			MutableComponent debug = Component.literal("tooltip debug");
+			MutableComponent debug = new TextComponent("tooltip debug");
 			tooltipStrings.add(debug.withStyle(ChatFormatting.BOLD));
 		}
-		tooltipStrings.add(Component.literal(mouseX + ", " + mouseY));
+		tooltipStrings.add(new TextComponent(mouseX + ", " + mouseY));
 		return tooltipStrings;
 	}
 

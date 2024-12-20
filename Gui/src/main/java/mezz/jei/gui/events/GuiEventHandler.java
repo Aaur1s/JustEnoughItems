@@ -19,7 +19,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -142,7 +142,7 @@ public class GuiEventHandler {
 					JeiTooltip tooltip = new JeiTooltip();
 					tooltip.addAll(area.getTooltipStrings());
 					if (tooltip.isEmpty()) {
-						tooltip.add(Component.translatable("jei.tooltip.show.recipes"));
+						tooltip.add(new TranslatableComponent("jei.tooltip.show.recipes"));
 					}
 					tooltip.draw(poseStack, mouseX, mouseY);
 				});

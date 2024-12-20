@@ -3,7 +3,7 @@ package mezz.jei.library.plugins.debug;
 import mezz.jei.api.constants.ModIds;
 import net.minecraft.client.gui.components.Button;
 
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public class DebugRecipe {
@@ -13,7 +13,7 @@ public class DebugRecipe {
 	private final ResourceLocation registryName;
 
 	public DebugRecipe() {
-		this.button = new Button(0, 0, 40, 20, Component.literal("test"), b -> {
+		this.button = new Button(0, 0, 40, 20, new TextComponent("test"), b -> {
 		});
 		this.registryName = new ResourceLocation(ModIds.JEI_ID, "debug_recipe_" + NEXT_ID);
 		NEXT_ID++;

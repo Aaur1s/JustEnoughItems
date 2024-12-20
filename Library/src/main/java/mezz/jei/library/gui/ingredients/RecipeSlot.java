@@ -24,6 +24,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
@@ -193,10 +195,10 @@ public class RecipeSlot implements IRecipeSlotView, IRecipeSlotDrawable {
 		ingredientHelper.getTagKeyEquivalent(ingredients)
 			.ifPresent(tagKeyEquivalent -> {
 				tooltip.add(
-					Component.translatable("jei.tooltip.recipe.tag", "")
+					new TranslatableComponent("jei.tooltip.recipe.tag", "")
 						.withStyle(ChatFormatting.GRAY)
 				);
-				Component tagName = Component.literal(tagKeyEquivalent.location().toString());
+				Component tagName = new TextComponent(tagKeyEquivalent.location().toString());
 				tooltip.add(
 					tagName.copy().withStyle(ChatFormatting.GRAY)
 				);

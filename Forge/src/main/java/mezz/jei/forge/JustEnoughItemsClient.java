@@ -15,15 +15,12 @@ import mezz.jei.forge.startup.ForgePluginFinder;
 import mezz.jei.forge.startup.StartEventObserver;
 import mezz.jei.library.startup.JeiStarter;
 import mezz.jei.library.startup.StartData;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class JustEnoughItemsClient {
 	private final NetworkHandler networkHandler;
@@ -78,8 +75,6 @@ public class JustEnoughItemsClient {
 	}
 
 	private static InternalKeyMappings createKeyMappings(PermanentEventSubscriptions subscriptions) {
-		Set<KeyMapping> keysToRegister = new HashSet<>();
-		subscriptions.register(RegisterKeyMappingsEvent.class, e -> keysToRegister.forEach(e::register));
-		return new InternalKeyMappings(keysToRegister::add);
+		return new InternalKeyMappings(ClientRegistry::registerKeyBinding);
 	}
 }

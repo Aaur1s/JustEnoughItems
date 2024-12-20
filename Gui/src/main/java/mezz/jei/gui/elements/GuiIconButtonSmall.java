@@ -8,7 +8,7 @@ import mezz.jei.common.gui.textures.Textures;
 import mezz.jei.common.util.ImmutableRect2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.TextComponent;
 
 /**
  * A small gui button that has an {@link IDrawable} instead of a string label.
@@ -18,7 +18,7 @@ public class GuiIconButtonSmall extends Button {
 	private final Textures textures;
 
 	public GuiIconButtonSmall(int x, int y, int widthIn, int heightIn, IDrawable icon, Button.OnPress pressable, Textures textures) {
-		super(x, y, widthIn, heightIn, CommonComponents.EMPTY, pressable);
+		super(x, y, widthIn, heightIn, new TextComponent(""), pressable);
 		this.icon = icon;
 		this.textures = textures;
 	}

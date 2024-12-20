@@ -8,6 +8,7 @@ import mezz.jei.common.util.MathUtil;
 import mezz.jei.common.util.StringUtil;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 public class RecipeCategoryTitle {
 	private final Component visibleString;
@@ -30,7 +31,7 @@ public class RecipeCategoryTitle {
 	}
 
 	public RecipeCategoryTitle() {
-		this(Component.empty(), Component.empty(), ImmutableRect2i.EMPTY);
+		this(new TextComponent(""), new TextComponent(""), ImmutableRect2i.EMPTY);
 	}
 
 	public RecipeCategoryTitle(Component visibleString, Component fullString, ImmutableRect2i area) {

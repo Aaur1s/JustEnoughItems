@@ -17,6 +17,7 @@ import mezz.jei.api.recipe.vanilla.IJeiBrewingRecipe;
 import mezz.jei.common.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -38,7 +39,7 @@ public class BrewingRecipeCategory implements IRecipeCategory<IJeiBrewingRecipe>
 			.addPadding(1, 0, 0, 50)
 			.build();
 		icon = guiHelper.createDrawableItemStack(new ItemStack(Blocks.BREWING_STAND));
-		localizedName = Component.translatable("gui.jei.category.brewing");
+		localizedName = new TranslatableComponent("gui.jei.category.brewing");
 
 		arrow = guiHelper.drawableBuilder(location, 64, 0, 9, 28)
 			.buildAnimated(400, IDrawableAnimated.StartDirection.TOP, false);
@@ -80,7 +81,7 @@ public class BrewingRecipeCategory implements IRecipeCategory<IJeiBrewingRecipe>
 
 		int brewingSteps = recipe.getBrewingSteps();
 		String brewingStepsString = brewingSteps < Integer.MAX_VALUE ? Integer.toString(brewingSteps) : "?";
-		Component steps = Component.translatable("gui.jei.category.brewing.steps", brewingStepsString);
+		Component steps = new TranslatableComponent("gui.jei.category.brewing.steps", brewingStepsString);
 		Minecraft minecraft = Minecraft.getInstance();
 		minecraft.font.draw(poseStack, steps, 70, 28, 0xFF808080);
 	}

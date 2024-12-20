@@ -12,8 +12,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.Rect2i;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -87,7 +88,7 @@ public record RecipeLayoutWithButtons<R>(
 			R recipe = recipeLayout.getRecipe();
 			ResourceLocation registryName = recipeCategory.getRegistryName(recipe);
 			if (registryName == null) {
-				MutableComponent message = Component.translatable("jei.message.copy.recipe.id.failure");
+				MutableComponent message = new TranslatableComponent("jei.message.copy.recipe.id.failure");
 				if (player != null) {
 					player.displayClientMessage(message, false);
 				}
@@ -96,7 +97,7 @@ public record RecipeLayoutWithButtons<R>(
 
 			String recipeId = registryName.toString();
 			minecraft.keyboardHandler.setClipboard(recipeId);
-			MutableComponent message = Component.translatable("jei.message.copy.recipe.id.success", Component.literal(recipeId));
+			MutableComponent message = new TranslatableComponent("jei.message.copy.recipe.id.success", new TextComponent(recipeId));
 			if (player != null) {
 				player.displayClientMessage(message, false);
 			}

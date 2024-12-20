@@ -15,7 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Rect2i;
-import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.TextComponent;
 
 import java.util.Optional;
 
@@ -28,12 +28,12 @@ public class GuiIconButton extends Button {
 	private boolean forcePressed = false;
 
 	public GuiIconButton(int x, int y, int width, int height, IDrawable icon, OnPress pressable) {
-		super(x, y, width, height, CommonComponents.EMPTY, pressable);
+		super(x, y, width, height, new TextComponent(""), pressable);
 		this.icon = icon;
 	}
 
 	public GuiIconButton(IDrawable icon, OnPress pressable) {
-		super(0, 0, 0, 0, CommonComponents.EMPTY, pressable);
+		super(0, 0, 0, 0, new TextComponent(""), pressable);
 		this.icon = icon;
 	}
 
